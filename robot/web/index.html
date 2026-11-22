@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BASMALA - Science Museum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poiret+One&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #043176;
+      --secondary-color: #1c2a5f;
+      --text-color: #333;
+      --background-color: #fff;
+      --accent-color: #f5f7ff;
+      --border-radius: 12px;
+      --keyboard-bg: #d6d6d6;
+      --key-bg: #1c2a5f;
+      --key-border: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poiret One', cursive;
+      background: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      text-align: center;
+      overflow-x: hidden;
+      padding-bottom: 150px; /* Space for keyboard */
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo {
+      width: 140px;
+      height: auto;
+      transition: transform 0.3s ease;
+      margin: 100px;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .content-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .robot {
+      width: 200px;
+      max-width: 100%;
+      margin: 10px auto;
+      transition: transform 0.5s ease;
+    }
+
+    .robot:hover {
+      transform: translateY(-10px);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 25px 0 15px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: var(--secondary-color);
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+
+    .box {
+      background-color: var(--accent-color);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      margin: 30px auto;
+      max-width: 800px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .highlight {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .input-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 30px auto;
+      max-width: 600px;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: 'Poiret One', cursive;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 20px;
+      border: 2px solid var(--primary-color);
+      border-radius: 30px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      background-color: white;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Poiret One', cursive;
+      
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    /* Virtual Keyboard */
+    .virtual-keyboard {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--keyboard-bg);
+      padding: 15px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border-top: 3px solid var(--primary-color);
+      z-index: 9999;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .virtual-keyboard.visible {
+      transform: translateY(0);
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .key {
+      padding: 12px 18px;
+      margin: 4px;
+      background-color: var(--key-bg);
+      border: 1px solid var(--key-border);
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      color: white;
+      font-weight: bold;
+    }
+
+    .key:hover {
+      background-color: #8a8a8b;
+    }
+
+    .key:active {
+      transform: scale(0.95);
+      background-color: #8a8a8b;
+    }
+
+    .close-keyboard {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary-color);
+      font-weight: bold;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-keyboard:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1rem; }
+      .box { padding: 20px; font-size: 1rem; }
+      .input-box { flex-direction: column; width: 100%; }
+      input[type="text"] { width: 100%; margin: 0 0 15px 0; }
+      button { width: 100%; }
+      .logo { margin: 50px; }
+    }
+
+    @media (max-width: 480px) {
+      .header { flex-direction: column; }
+      .logo { width: 100px; margin: 20px; }
+      .robot { width: 150px; }
+      h1 { font-size: 1.5rem; margin: 15px 0 10px; }
+      .key { padding: 10px 14px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="img/logo.png" alt="University Logo" class="logo">
+      <div class="content-center">
+        <img src="img/robot.png" alt="Robot" class="robot">
+      </div>
+      <img src="img/logo.png" alt="University Logo" class="logo">
+    </div>
+
+    <h1><span style="font-family: 'Cinzel', serif;">Welcome to the Al-Quds University Science Museum!</span></h1>
+    <h2><span class="highlight">BASMALA</span> stands for <span class="highlight">Bot Assisting Science Museum and Learning Activities</span></h2>
+
+    <div class="box">
+      You can talk to me by saying <span class="highlight">&#8220;Hello BASMALA&#8221;</span> and I'll respond directly via voice.<br>
+      Or, type "Hello BASMALA" in the box below and I'll reply to you in text form.
+    </div>
+
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Type here..." autocomplete="off">
+      <button id="sendButton">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const layout = [
+      ['1','2','3','4','5','6','7','8','9','0','←'],
+      ['q','w','e','r','t','y','u','i','o','p'],
+      ['a','s','d','f','g','h','j','k','l'],
+      ['z','x','c','v','b','n','m'],
+      ['----------------------------------------------------------------']
+    ];
+
+    let keyboardVisible = false;
+    let keyboard = null;
+    let currentInput = null;
+
+    function createKeyboard(input) {
+      if (keyboard) {
+        keyboard.classList.add('visible');
+        keyboardVisible = true;
+        currentInput = input;
+        return;
+      }
+
+      keyboard = document.createElement('div');
+      keyboard.className = 'virtual-keyboard';
+
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'close-keyboard';
+      closeBtn.innerHTML = '&times;';
+      closeBtn.title = 'Close keyboard';
+      closeBtn.onclick = () => toggleKeyboard();
+      keyboard.appendChild(closeBtn);
+
+      layout.forEach(row => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'keyboard-row';
+
+        row.forEach(key => {
+          const keyBtn = document.createElement('button');
+          keyBtn.className = 'key';
+          keyBtn.innerText = key === 'Space' ? '␣' : key;
+          keyBtn.onclick = (e) => {
+            e.preventDefault();
+            if (!currentInput) return;
+            
+            const startPos = currentInput.selectionStart;
+            const endPos = currentInput.selectionEnd;
+            const currentValue = currentInput.value;
+            
+            if (key === '←') {
+              // Handle backspace with cursor position
+              if (startPos === endPos && startPos > 0) {
+                currentInput.value = currentValue.substring(0, startPos - 1) + currentValue.substring(endPos);
+                currentInput.selectionStart = currentInput.selectionEnd = startPos - 1;
+              } else if (startPos !== endPos) {
+                currentInput.value = currentValue.substring(0, startPos) + currentValue.substring(endPos);
+                currentInput.selectionStart = currentInput.selectionEnd = startPos;
+              }
+            } else if (key === 'Space') {
+              currentInput.value = currentValue.substring(0, startPos) + ' ' + currentValue.substring(endPos);
+              currentInput.selectionStart = currentInput.selectionEnd = startPos + 1;
+            } else {
+              currentInput.value = currentValue.substring(0, startPos) + key + currentValue.substring(endPos);
+              currentInput.selectionStart = currentInput.selectionEnd = startPos + 1;
+            }
+            
+            // Trigger events
+            const inputEvent = new Event('input', { bubbles: true });
+            const changeEvent = new Event('change', { bubbles: true });
+            currentInput.dispatchEvent(inputEvent);
+            currentInput.dispatchEvent(changeEvent);
+            
+            currentInput.focus();
+          };
+          rowDiv.appendChild(keyBtn);
+        });
+
+        keyboard.appendChild(rowDiv);
+      });
+
+      document.body.appendChild(keyboard);
+      setTimeout(() => {
+        keyboard.classList.add('visible');
+        keyboardVisible = true;
+        currentInput = input;
+      }, 10);
+    }
+
+    function toggleKeyboard() {
+      if (keyboardVisible) {
+        keyboard.classList.remove('visible');
+        keyboardVisible = false;
+        currentInput = null;
+      } else {
+        const input = document.getElementById('userInput');
+        createKeyboard(input);
+        input.focus();
+      }
+    }
+
+    function hideKeyboard() {
+      if (keyboard && keyboardVisible) {
+        keyboard.classList.remove('visible');
+        keyboardVisible = false;
+        currentInput = null;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const input = document.getElementById('userInput');
+      const sendButton = document.getElementById('sendButton');
+      
+      input.addEventListener('focus', () => {
+        createKeyboard(input);
+      });
+      
+      input.addEventListener('click', () => {
+        if (!keyboardVisible) {
+          createKeyboard(input);
+        }
+      });
+      
+      sendButton.addEventListener('click', () => {
+        if (input.value.trim()) {
+          console.log('Message sent:', input.value);
+          // Here you would typically send the message to your backend
+          alert(`Message sent: "${input.value}"`);
+          input.value = '';
+        }
+        hideKeyboard();
+      });
+      
+      // Handle Enter key in input
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          sendButton.click();
+        }
+      });
+      
+      // Close keyboard when clicking outside
+      document.addEventListener('click', (e) => {
+        if (keyboardVisible && 
+            !keyboard.contains(e.target) && 
+            e.target !== input &&
+            e.target !== sendButton) {
+          hideKeyboard();
+        }
+      });
+      
+      // Close keyboard on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && keyboardVisible) {
+          hideKeyboard();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

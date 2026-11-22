@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+*.log
+.venv/
+basmala-env/
+basmala_env/
+
